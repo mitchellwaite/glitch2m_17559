@@ -836,7 +836,7 @@ KMAKEPATCH 0x8010BF40
    # we're at 0x8010bf48 at this point
    #=============================================================================
 # XexLoadImage Setup
-	lis %r3, -0x7ff0         # Set r3 to address of launch.xex path string 0x8010bfd0 - 1st half (TODO FreeBoot uses 0x8010 here)
+	lis %r3, 0x8010         # Set r3 to address of launch.xex path string 0x8010bfd0 - 1st half
 	lis %r5, 0               # Set r5 (MinimumVersion)
 	li %r4, 0               # Set r4 (ModuleTypeFlags) - 1st half
 	ori %r4, %r4, 8         # Set r4 (ModuleTypeFlags) - 2nd half
@@ -847,7 +847,7 @@ KMAKEPATCH 0x8010BF40
 	bl 0xfffffffffff71860    # 0x8007d7c0 - XexLoadImage - Attempt to load launch.xex. Note there is no check for whether this was successful
 # Signify this has completed
 	li %r3, 0                # Set r3 to zero
-	lis %r4, -0x7ff0         # Set r4 to the address other functions check for completion (0x8010bfec) - 1st half - (The 0x12345678 after the launch.xex path) TODO: FreeBoot uses 0x8010
+	lis %r4, 0x8010         # Set r4 to the address other functions check for completion (0x8010bfec) - 1st half - (The 0x12345678 after the launch.xex path)
 	ori %r4, %r4, 0xbfec      # Set r4 to the address other functions check for completion (0x8010bfec) - 2nd half
 	isync
 	stw %r3, 0(%r4)           # Sets value at the address to zero so signify completion to allow other functions to act accordingly
@@ -859,7 +859,7 @@ KMAKEPATCH 0x8010BF40
    #=============================================================================
 	addi %r5, %r1, 0x54
 # Set the address to check
-	lis %r7, -0x7ff0         # Set r7 to the address to check for completion (0x8010bfec) - 1st half - (The 0x12345678 after the launch.xex path) TODO: FreeBoot uses 0x8010 here
+	lis %r7, 0x8010         # Set r7 to the address to check for completion (0x8010bfec) - 1st half - (The 0x12345678 after the launch.xex path)
 	ori %r7, %r7, 0xbfec      # Set r7 to the address to check for completion (0x8010bfec) - 2nd half
 # Check value is zero loop - We're at 0x8010bf88
 	lwz %r8, 0(%r7)           # Stores the current value at the address in r8 - Jumps back here until the value is zero
@@ -877,7 +877,7 @@ KMAKEPATCH 0x8010BF40
 	cmplwi cr6, %r3, 0x14
 	bne cr6, 0x24           # If false, skip everything and branch to the complete branch at 0x8010bfcc. Original patch decompiled as 0x10bfcc
 # Set the address to check
-	lis %r7, -0x7ff0         # Set r7 to the address to check for completion (0x8010bfec) - 1st half - (The 0x12345678 after the launch.xex path) TODO FreeBoot uses 0x8010 here 
+	lis %r7, 0x8010         # Set r7 to the address to check for completion (0x8010bfec) - 1st half - (The 0x12345678 after the launch.xex path)
 	ori %r7, %r7, 0xbfec      # Set r7 to the address to check for completion (0x8010bfec) - 2nd half
 # Check value is zero loop - We're at 0x8010bfb4
 	lwz %r8, 0(%r7)           # Stores the current value at the address in r8 - Jumps back here until the value is zero
@@ -938,9 +938,10 @@ KMAKEPATCH 0x80108E70
 9:
 
 # ===================================
-# RGH3 Glitch2m image.... some sort of patches
+# These bits are only in the patches of the RGH3
+# Glitch2m image.... some sort of patches
 # ===================================
-.ifdef vfuses
+.ifdef rgh3_patches
 MAKEPATCH 0x0015BC80
 0:
 	b 0x4c
