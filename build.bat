@@ -49,6 +49,13 @@ bin\xenon-objcopy.exe output\patch_sections\cbb_6752_glitch2.elf -O binary outpu
 del output\patch_sections\cbb_6752_glitch2.elf
 
 echo.
+echo Building XeBuild patches...
+
+copy /b output\patch_sections\cbb_6752_vfuses.bin + output\patch_sections\cd_9452_vfuses.bin + output\patch_sections\khv_17559_vfuses.bin output\patches_g2mjasper.bin
+
+copy /b output\patch_sections\cbb_5772_vfuses.bin + output\patch_sections\cd_9452_vfuses.bin + output\patch_sections\khv_17559_vfuses.bin output\patches_g2mfalcon.bin
+
+echo.
 echo All Done!
 
 pause

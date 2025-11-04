@@ -18,7 +18,7 @@ MAKEPATCH 0x000067E4
 	add %r4, %r3, %r5
 	mr %r3, %r10
 	li %r5, 0xc
-	bl 0x72e0
+	bl 0xae0
 9:
 .endif
 
@@ -57,7 +57,7 @@ MAKEPATCH 0x00006BE0
 	add %r4, %r3, %r5
 	mr %r3, %r10
 	li %r5, 0xc
-	bl 0x72e0
+	bl 0x6e4
 9:
 .endif
 
