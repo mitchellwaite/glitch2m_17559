@@ -4,6 +4,6 @@
 
 # The RGH3 glitch2m image for jasper/falcon has some extra patches
 # if this causes issues for normal glitch2m i guess we'll change it
-.rgh3_patches, 1
+.set rgh3_patches, 1
 
-.include "jasper_khv.S"
+.include "khv_17559.S"
