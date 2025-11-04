@@ -309,7 +309,15 @@ loc_51DC:
 
 loc_5228:
 	add %r4, %r4, %r6
+
+# The location of patches on a jasper BB is
+# different for a glitch2 image and a DevGL image
+.ifdef vfuses
 	addi %r4, %r4, 0x5c
+.else
+   addi %r4, %r4, 0xc
+.endif
+
 	or %r3, %r5, %r4
 	isync
    

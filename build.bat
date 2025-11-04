@@ -26,6 +26,10 @@ bin\xenon-as.exe src\cd_9452_vfuses.S -I src\include -o output\patch_sections\cd
 bin\xenon-objcopy.exe output\patch_sections\cd_9452_vfuses.elf -O binary output\patch_sections\cd_9452_vfuses.bin
 del output\patch_sections\cd_9452_vfuses.elf
 
+bin\xenon-as.exe src\cd_9452_glitch2.S -I src\include -o output\patch_sections\cd_9452_glitch2.elf
+bin\xenon-objcopy.exe output\patch_sections\cd_9452_glitch2.elf -O binary output\patch_sections\cd_9452_glitch2.bin
+del output\patch_sections\cd_9452_glitch2.elf
+
 echo Building 2BL patch files...
 
 bin\xenon-as.exe src\cbb_5772_vfuses.S -I src\include -o output\patch_sections\cbb_5772_vfuses.elf

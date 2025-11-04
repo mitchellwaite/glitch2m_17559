@@ -135,78 +135,98 @@ MAKEPATCH 0x00004F20
 	or r31, r31, r29
 	stwbrx r31, r30, r4
 	b 0x50bc
-	stfs f0, 0x10(0)
-	ld r16, 0(0)
-	#;// 0x000050F8 -> 0x00000156
+
+# this is a bunch of LONGs for hardware init
+   # pci-pci bridge
+	.long 0xD0000010
+	.long 0xEA000000
 	.long 0x00000156
-	stfs f0, -0x7ff0(0)
-	#;// 0x00005100 -> 0xe0000000
+
+   # host bridge
+	.long 0xD0008010
 	.long 0xe0000000
-	#;// 0x00005104 -> 0x00000002
 	.long 0x00000002
-	stfs f0, 0x10(r1)
-	#;// 0x0000510C -> 0xec800000
+
+   # GPU
+   .long 0xD0010010
 	.long 0xec800000
-	#;// 0x00005110 -> 0x00000002
 	.long 0x00000002
-	stfs f0, 0x10(r16)
-	ld r16, 0x1800(0)
-	#;// 0x0000511C -> 0x00000002
+
+   # 1414:5801
+   .long 0xD0100010
+	.long 0xEA001800
 	.long 0x00000002
-	stfs f0, -0x7ff0(r16)
-	ld r16, 0x1200(0)
-	#;// 0x00005128 -> 0x00000006
+
+   # SATA (1)
+	.long 0xD0108010
+   .long 0xEA001200
 	.long 0x00000006
-	stfs f0, -0x7fec(r16)
-	ld r16, 0x1220(0)
-	#;// 0x00005134 -> 0x00000006
+
+   # SATA (2)
+	.long 0xD0108014
+	.long 0xEA001220
 	.long 0x00000006
-	stfs f0, 0x10(r17)
-	ld r16, 0x1300(0)
-	#;// 0x00005140 -> 0x00000006
+
+   # SATA (3)
+	.long 0xD0110010
+	.long 0xEA001300
 	.long 0x00000006
-	stfs f0, 0x14(r17)
-	ld r16, 0x1320(0)
-	#;// 0x0000514C -> 0x00000006
+
+   # SATA (4)
+	.long 0xD0110014
+	.long 0xEA001320
 	.long 0x00000006
-	stfs f0, 0x10(r18)
-	ld r16, 0x2000(0)
-	#;// 0x00005158 -> 0x00000156
+
+   # USB (1)
+	.long 0xD0120010
+	.long 0xEA002000
 	.long 0x00000156
-	stfs f0, 0x1010(r18)
-	ld r16, 0x3000(0)
-	#;// 0x00005164 -> 0x00000106
+
+   # USB (2)
+	.long 0xD0121010
+	.long 0xEA003000
 	.long 0x00000106
-	stfs f0, -0x7ff0(r18)
-	ld r16, 0x4000(0)
-	#;// 0x00005170 -> 0x00000156
+
+   # USB (3)
+	.long 0xD0128010
+	.long 0xEA004000
 	.long 0x00000156
-	stfs f0, -0x6ff0(r18)
-	ld r16, 0x5000(0)
-	#;// 0x0000517C -> 0x00000106
+
+   # USB (4)
+	.long 0xD0129010
+	.long 0xEA005000
 	.long 0x00000106
-	stfs f0, -0x7ff0(r19)
-	ld r16, 0x1400(0)
-	#;// 0x00005188 -> 0x00000006
+
+   # Ethernet
+	.long 0xD0138010
+	.long 0xEA001400
 	.long 0x00000006
-	stfs f0, 0x10(r20)
-	ld r16, -0x4000(0)
-	#;// 0x00005194 -> 0x00000006
+
+   # System Flash Controller (1)
+	.long 0xD0140010
+	.long 0xEA00C000
 	.long 0x00000006
-	stfs f0, 0x14(r20)
-	lfd f0, 0(0)
-	#;// 0x000051A0 -> 0x00000006
+
+   # System Flash Controller (2)
+	.long 0xD0140014
+	.long 0xC8000000
 	.long 0x00000006
-	stfs f0, -0x7ff0(r20)
-	ld r16, 0x1600(0)
-	#;// 0x000051AC -> 0x00000006
+
+   # Audio
+	.long 0xD0148010
+	.long 0xEA001600
 	.long 0x00000006
-	stfs f0, 0x10(r21)
-	ld r16, 0x1000(0)
-	#;// 0x000051B8 -> 0x00000002
+
+   # SMC
+	.long 0xD0150010
+	.long 0xEA001000
 	.long 0x00000002
-	#;// 0x000051BC -> 0x00000000
-	.long 0x00000000
+
+   # End of list!
+   .long 0x00000000
+
+
+
 	li r3, 0x2e
 	lis r4, -0x8000
 	ori r4, r4, 0x200
@@ -214,10 +234,12 @@ MAKEPATCH 0x00004F20
 	oris r4, r4, 0xea00
 	slwi r3, r3, 0x18
 	stw r3, 0x1014(r4)
+
 	lwz r3, 0x1018(r4)
 	rlwinm. r3, r3, 0, 6, 6
 	beq 0x51dc
 	blr
+
 	mfmsr r7
 	li r8, 0x10
 	andc r8, r7, r8
@@ -227,16 +249,20 @@ MAKEPATCH 0x00004F20
 	oris r5, r5, 0x8000
 	sldi r5, r5, 0x20
 	oris r5, r5, 0xc800
+
 	ori r5, r5, 0
+
 	lwz r6, 0x70(r5)
 	lwz r4, 0x64(r5)
 	cmplwi r6, 0
 	bne 0x5228
 	lis r6, 1
+
 	add r4, r4, r6
 	addi r4, r4, 0xc
 	or r3, r5, r4
 	isync
+
 	mtmsrd r8
 	isync
 	lwzu r4, 4(r3)
@@ -245,6 +271,7 @@ MAKEPATCH 0x00004F20
 	addi r4, r4, -4
 	lwzu r6, 4(r3)
 	mtctr r6
+
 	mtmsrd r8
 	isync
 	lwzu r6, 4(r3)
@@ -255,6 +282,7 @@ MAKEPATCH 0x00004F20
 	icbi 0, r4
 	bdnz 0x5258
 	b 0x5238
+
 	sync
 	isync
 	mtmsrd r7
