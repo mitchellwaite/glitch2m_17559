@@ -22,7 +22,9 @@ del output\patch_sections\khv_17559_glitch2.elf
 
 echo Building 4BL patch files...
 
-
+bin\xenon-as.exe src\cd_9452_vfuses.S -I src\include -o output\patch_sections\cd_9452_vfuses.elf
+bin\xenon-objcopy.exe output\patch_sections\cd_9452_vfuses.elf -O binary output\patch_sections\cd_9452_vfuses.bin
+del output\patch_sections\cd_9452_vfuses.elf
 
 echo Building 2BL patch files...
 
