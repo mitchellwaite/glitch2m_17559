@@ -34,7 +34,7 @@ MAKEPATCH 0x00000920
 	lwz %r5, 0x70(%r3)
 	add %r3, %r3, %r4
 	add %r4, %r3, %r5
-	mr %r3, r10
+	mr %r3, %r10
 	li %r5, 0xc
 	bl 0xe90
 	nop
@@ -72,39 +72,39 @@ pci_init:
 
 # SMC handshake
 smc_init:
-	mflr r12
+	mflr %r12
 	bl 0x51c0
-	mtlr r12
+	mtlr %r12
 	li %r8, 0x200
 	oris %r8, %r8, 0x8000
 	sldi %r8, %r8, 0x20
 	oris %r8, %r8, 0xea00
 	lis %r9, 0x400
-	lis r10, 0x100
-	li r11, 0
+	lis %r10, 0x100
+	li %r11, 0
 	stw %r9, 0x1084(%r8)
-	stw r10, 0x1080(%r8)
-	stw r11, 0x1080(%r8)
-	stw r11, 0x1080(%r8)
-	stw r11, 0x1080(%r8)
-	stw r11, 0x1084(%r8)
+	stw %r10, 0x1080(%r8)
+	stw %r11, 0x1080(%r8)
+	stw %r11, 0x1080(%r8)
+	stw %r11, 0x1080(%r8)
+	stw %r11, 0x1084(%r8)
 
 smc_handshake_loop:
-	lwz r12, 0x1094(%r8)
-	and. r12, r12, %r9
+	lwz %r12, 0x1094(%r8)
+	and. %r12, %r12, %r9
 	beq 0x4f98
 	stw %r9, 0x1094(%r8)
-	lwz r12, 0x1090(%r8)
+	lwz %r12, 0x1090(%r8)
 	lwz %r3, 0x1090(%r8)
 	lwz %r3, 0x1090(%r8)
 	lwz %r3, 0x1090(%r8)
-	stw r11, 0x1094(%r8)
-	srwi %r3, r12, 0x18
+	stw %r11, 0x1094(%r8)
+	srwi %r3, %r12, 0x18
 	cmpwi %r3, 1
 	bne 0x4f98
 
 # Get the powerup cause from the SMC
-	rlwinm %r3, r12, 0x10, 0x18, 0x1f
+	rlwinm %r3, %r12, 0x10, 0x18, 0x1f
 	cmpwi %r3, 0
 	beq 0x4fec
 	lbz %r4, 0x4f(%r5)
@@ -158,7 +158,7 @@ load_xell:
 	sldi %r6, %r6, 0x20
 	oris %r6, %r6, 0x1c00
 	mr %r9, %r6
-	mtspr 0x139, r11
+	mtspr 0x139, %r11
 
 # set POST code 0x11   
 	li %r3, 0x11
@@ -364,12 +364,12 @@ xell_copy_loop:
 	mtmsrd %r7
 	rfid
 
-	ori r10, r10, 0x1e
-	or r11, r11, r10
+	ori %r10, %r10, 0x1e
+	or %r11, %r11, %r10
 	blr
 
 	ori %r28, %r28, 0x1e
-	or r11, r11, %r28
+	or %r11, %r11, %r28
 	blr
 9:
 #============================================================================
