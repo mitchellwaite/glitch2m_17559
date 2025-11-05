@@ -6,12 +6,16 @@ for DevGL that is floating around is no good for my FFFFFFalcon.
 
 (FFFFFFalcon = a falcon that has had all efuses except for fuseline 0 blown to F)
 
-## What's probably going to work?
+## Installation
+
+Download the release, drop the contents of the zip file in your xeBuild/17559 folder, replacing any existing files. For glitch2m on 17559 phat consoles, you'll need to update Jrunner and then hit F11 to enable "glitch2m for phat" mode. Otherwise, the only phat support for glitch2m is within XDKbuild.
+
+What's probably going to work?
 
 - DevGL: Xenon, Zephyr, Falcon, Jasper
 - Glitch2m: Falcon, Jasper
 
-Note that all images were built using the Jasper board type in Jrunner. For glitch2m on 17559 phat consoles, you'll need to update Jrunner and then hit F11 to enable "glitch2m for phat" mode. Otherwise, the only phat support for glitch2m is within XDKbuild.
+Note that all images were built using the Jasper board type in Jrunner. 
 
 ### But what's actually been tested?
 
