@@ -10,25 +10,17 @@ for DevGL that is floating around is no good for my FFFFFFalcon.
 
 Download the release, drop the contents of the zip file in your xeBuild/17559 folder, replacing any existing files. For glitch2m on 17559 phat consoles, you'll need to update Jrunner and then hit F11 to enable "glitch2m for phat" mode. Otherwise, the only phat support for glitch2m is within XDKbuild.
 
-What's probably going to work?
+What have i tested?
 
-- DevGL: Xenon, Zephyr, Falcon, Jasper
-- Glitch2m: Falcon, Jasper
+- DevGL Xenon, Glitch2m FFFFFalcon, Glitch2m Jasper
 
-Note that all images were built using the Jasper board type in Jrunner. 
-
-### But what's actually been tested?
-
-I've only tested these patches on my zero fuse xenon and all fuse RGH3 falcon. Other machines are likely to work, as the CD and Kernel patches are basically the same as the DevGL image floating around. If you're not using RGH3, the standard timing files should be fine, since the CB_B is still the same size.
-
-## Future Items
-
-Note: for reasons currently unknown, the 5772 CB_B doesn't want to boot on the FFFFFFalcon, even though the patches are identical to the jasper BL (6752). If i NOP out all the fuse checks (nop at 0x4F0) the console will boot to XeLL but not the dashboard. I don't have a POST code reader so i can't tell where it's actually failing, or if it's related to RGH3, etc. etc. and I don't feel like grabbing a
-different falcon to test with when the jasper BL works perfectly fine.
-
-Perhaps the jasper BL has other differences from CB 5772 that cause 5772 to totally freak when all the fuses are blown. If someone wants to test this, you'll need to uncomment the lines in build.bat and run a manual xeBuild. Let me know what POST code it's failing on, we can
-try NOPing out those codes and seeing if we can get the 5772 CB_B working properly.
-
+> [!WARNING]
+> By default, glitch2m builds using the Falcon board type for Falcon/Zephyr/Xenon. Currently, there is an apparent bug in XeBuild where the patch slot size DWORD at 0x70 in NAND is not being set when the board type is set to Falcon. A future version of Jrunner will add an automatic patching function to solve this issue.
+>
+> As a workaround, add the following section to your ini file and drop patch_70.bin in your 17559 folder.
+>
+> [rawpatch]
+> patch_70.bin,0x70
 ## Credits
 
 - wurthless-electroniks for modern_loadfare CB patching project and the xeBuild patch diff tool
