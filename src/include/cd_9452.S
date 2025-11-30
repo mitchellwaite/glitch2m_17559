@@ -120,7 +120,14 @@ load_xell:
 	li %r5, 0x200
 	oris %r5, %r5, 0x8000
 	sldi %r5, %r5, 0x20
-	oris %r5, %r5, 0xc807 # XeLL location for a 16mb retail image is 0x70000 in flash
+#
+#	oris %r5, %r5, 0xc807 # XeLL location for a 16mb retail image is 0x70000 in flash
+#
+#
+# Todo this is a test for RGLoader glitch2m
+# where XeLL lives at 0x100000
+#                     0x070000
+   oris %r5, %r5, 0xc810
 	ori %r5, %r5, 0
 	lis %r6, -0x8000
 	sldi %r6, %r6, 0x20
@@ -393,6 +400,56 @@ MAKEPATCH 0x000008C4
 	bl 0x49D8
 9:
 .endif
+
+#
+# TODO this is just a test to see if I can get RGLoader to boot on an RGH3 box
+#
+
+# Allow empty patch slots
+#
+# BEQ -> branch unconditionally to skip panic 0xB7
+#
+MAKEPATCH 0xE30
+0:
+    b 0x14
+9:
+
+# Remove CE hash check
+#
+# NOP out the branch to the panic loop after post code 0xB3
+# RGLoader does this instead of changing the branch to the
+# instruction after 0xC4C to an unconditional branch. Either
+# works, doesn't really matter
+#
+MAKEPATCH 0xC4C
+0:
+    nop
+9:
+
+# =================================================================================
+# remove CF signature check
+# (branch conditionally -> nop)
+# =================================================================================
+MAKEPATCH 0xD9C
+0:
+    nop
+9:
+
+MAKEPATCH 0xCA8
+0:
+   .long 0x4800019C
+9:
+
+# =================================================================================
+# remove unpaired bit from bootloader flags
+# =================================================================================
+#MAKEPATCH 0xE54
+#0:
+#             or        %r11, %r11, %r10 # do what we patched did originally
+#				 li        %r4, 0x21
+#				 andc      %r11, %r11, %r4 # clear bit
+#				 ori       %r11, %r11, 0xC
+#9:
 
 #============================================================================
    .long 0xFFFFFFFF
