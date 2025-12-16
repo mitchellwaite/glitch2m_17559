@@ -938,15 +938,18 @@ KMAKEPATCH 0x80108E70
 9:
 
 # ===================================
-# These bits are only in the patches of the RGH3
-# Glitch2m image.... some sort of patches
+# These bits are in the premade RGH3 glitch2m images
+# nointmu and nohdmiwait are enabled by default
 # ===================================
 .ifdef rgh3_patches
+
+# nohdmiwait patch
 MAKEPATCH 0x0015BC80
 0:
 	b 0x4c
 9:
 
+# nointmu patch
 MAKEPATCH 0x0008E098
 0:
 	lis %r10, 0x6000
