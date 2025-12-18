@@ -1,5 +1,15 @@
 # 17559 glitch2m and DevGL xeBuild patch set
 
+## Note!
+
+I've been working on a few different patch sets, and was duplicating work across repositories. I've thus moved everything over to the following location.
+
+https://github.com/mitchellwaite/xbox360_xebuild_patches
+
+I've also added 64mb DevGL support and fixed the issues i was having with RGLoader.
+
+## Rest of the intro
+
 Why? Because we can do reproducible builds of the patch blobs included with xeBuild. I focus on phat consoles here, because
 xeBuild does NOT include glitch2m patches for xenon/zephyr/falcon/jasper by default, and the jasper_glitch2m patch that is used
 for DevGL that is floating around is no good for my FFFFFFalcon.
@@ -23,7 +33,3 @@ What have i tested?
 > patch_70.bin,0x70
 ## Credits
 
-- wurthless-electroniks for modern_loadfare CB patching project and the xeBuild patch diff tool
-- 15432 for posting the pre-made glitch2m images on the 360hub discord. Without this, my ffffffalcon would be fffffried and only able to run XDKbuild. The patches are mostly based on what is included in those images.
-- Unknown???? Whoever created the DevGL patches for 17559 that are currently floating around. I'll add credits here if i figure out who wrote them
-- XDKbuild and RGLoader for their open source SB/SD/Kernel patches, which are a great reference.
